@@ -1,4 +1,5 @@
 directions = {0: North, 1: East, 2: South, 3: West}
+maze_upgrade_level = 2
 
 def MoveTo(x, y):
 	# horizontal
@@ -66,4 +67,4 @@ while True:
 		
 	elif get_entity_type() != Entities.Bush:
 		plant(Entities.Bush)
-		use_item(Items.Weird_Substance, 22)
+		use_item(Items.Weird_Substance, 22*maze_upgrade_level)
