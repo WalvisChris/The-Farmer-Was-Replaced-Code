@@ -1,5 +1,6 @@
 directions = {0: North, 1: East, 2: South, 3: West}
-maze_upgrade_level = 2
+maze_upgrade_level = 3
+max_drones = 8
 
 def MoveTo(x, y):
 	# horizontal
@@ -47,12 +48,14 @@ def SolveMazeRight():
 
 def SolveMazeRandom():
 	rotation = 0
+	steps = 0
 	while get_entity_type() == Entities.Hedge:
-		if can_move(directions[rotation]):
-			move(directions[rotation])
-		else:
-			rotation = random() * 4 // 1
-			move(directions[rotation])
+		rotation = random() * 4 // 1
+		move(directions[rotation])
+		steps += 1
+		if steps > 50 and max_drones > num_drones():
+			spawn_drone(SolveMazeRandom)
+			steps = 0
 	if get_entity_type() == Entities.Treasure:
 		harvest()
 
@@ -67,4 +70,4 @@ while True:
 		
 	elif get_entity_type() != Entities.Bush:
 		plant(Entities.Bush)
-		use_item(Items.Weird_Substance, 22*maze_upgrade_level)
+		use_item(Items.Weird_Substance, get_world_size()*(2**maze_upgrade_level))

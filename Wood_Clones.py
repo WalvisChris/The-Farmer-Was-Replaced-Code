@@ -1,17 +1,18 @@
-total_drones = 7
+max_drones = 16
 
 def CutLane():
 	for _ in range(get_world_size()):
-		harvest()
-		if (get_pos_x() + get_pos_y()) % 2 == 0:
-			plant(Entities.Tree)
-		else:
-			plant(Entities.Bush)
+		if can_harvest():
+			harvest()
+			if (get_pos_x() + get_pos_y()) % 2 == 0:
+				plant(Entities.Tree)
+			else:
+				plant(Entities.Bush)
 		move(East)
 	
 clear()
-set_world_size(total_drones*2)
+set_world_size(max_drones)
 while True:
-	if total_drones - num_drones() > 0:
+	if max_drones > num_drones():
 		spawn_drone(CutLane)
 		move(North)
